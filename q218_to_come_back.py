@@ -23,15 +23,14 @@
 # the three lines of height 5 should be merged into one in the final output as such:
 # [...[2 3], [4 5], [12 7], ...]
 
-# 생각보다 까다로움... 좋은 문제
-
-
+# 까다로움... 좋은 문제
 from heapq import heappush, heappop
 class Solution(object):
     def getSkyline(self, buildings):
         # add start-building events
         # also add end-building events(acts as buildings with 0 height)
         # and sort the events in left -> right order
+        # negative height is crucial! Must be done here!
         events = [(L, -H, R) for L, R, H in buildings]
         events += list({(R, 0, 0) for _, R, _ in buildings})
         events.sort()
@@ -47,6 +46,8 @@ class Solution(object):
             # 2, if it's the start-building event, make the building alive
             if negH:
                 heappush(live, (negH, R))
+
+            # 여기 밑줄 쫙!
             # 3, if previous keypoint height != current highest height, edit the result
             if res[-1][1] != -live[0][0]:
                 res += [[pos, -live[0][0]]]
