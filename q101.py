@@ -12,6 +12,7 @@
 #         self.left = None
 #         self.right = None
 
+
 class Solution:
     def isSymmetric(self, root: TreeNode) -> bool:
 
