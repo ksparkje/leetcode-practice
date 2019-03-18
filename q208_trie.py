@@ -37,6 +37,7 @@ class Trie:
 
         cur_node = self.head
         for char in word:
+            # THIS PART IS SUPER INTERESTING!!!
             cur_node = cur_node.children[char]
         cur_node.end = True
 
@@ -56,7 +57,7 @@ class Trie:
 
 
     def startsWith(self, prefix: str) -> bool:
-        assert word.isalpha()
+        assert prefix.isalpha()
 
         cur_node = self.head
         for char in word:
