@@ -40,6 +40,7 @@ class Solution:
 
             direction *= -1
 
+            # 완전 쉽지만 (뭐 그걸 누가 모르냐) 발상의 전환!!!
             # update this_row
             this_row = [child
                         for node in this_row

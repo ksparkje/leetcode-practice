@@ -59,7 +59,7 @@ class FreqStack:
 '''
 Discussion Solution, with O(1)
 
-For each x, keep frequency... Use Counter
+For each x, keep frequency...
 For each frequency, keep a list of such elem remaining.
 `Best` holds the current highest freq
 '''
