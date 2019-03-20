@@ -18,6 +18,7 @@
 #  1  3  -1 [-3  5  3] 6  7       5
 #  1  3  -1  -3 [5  3  6] 7       6
 #  1  3  -1  -3  5 [3  6  7]      7
+import bisect
 
 
 '''
@@ -26,6 +27,17 @@ CRUX: current_window should be sorted descending
 To keep the window descending, pop from the right when adding new element!
 '''
 class Solution:
+    def maxSlidingWindow(self, nums, k: int):
+        current_window = sorted(nums[:k])
+        answer = []
+
+        for to_remove, to_add in zip(nums, nums[k:] + [0]):
+            answer.append(current_window[-1])
+            current_window.remove(to_remove)
+            bisect.insort(current_window, to_add)
+
+        return answer
+
     def maxSlidingWindow(self, nums, k: int):
         '''
         :param nums: All numbers in a sequence

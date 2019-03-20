@@ -28,7 +28,10 @@ As we walk down, remove the first elem and add the new elem
 '''
 import bisect
 
-
+'''
+God-like solution by 
+# https://leetcode.com/problems/sliding-window-median/discuss/96355/Easy-Python-O(nk)
+'''
 class Solution:
     def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
         window = sorted(nums[:k])
@@ -37,9 +40,7 @@ class Solution:
         # ... + [0] because item is added first to median, then computes window
         #       [0] can be anything...
         for to_remove, to_add in zip(nums, nums[k:] + [0]):
-            medians.append((window[k//2] +
-                            window[~(k//2)]
-                            ) / 2)
+            medians.append((window[k//2] + window[~(k//2)]) / 2)
             window.remove(to_remove)
             bisect.insort(window, to_add)
 

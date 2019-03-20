@@ -50,7 +50,6 @@ class WordDictionary:
 
             first_char = word_remaining[0]
 
-
             if first_char == '.':
                 return any(search_from_dict_ptr(dict_ptr.dict.get(c), word_remaining[1:])
                            for c in dict_ptr.dict)

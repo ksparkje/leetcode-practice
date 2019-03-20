@@ -12,6 +12,23 @@
 #   "()(())",
 #   "()()()"
 # ]
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        def f(open, close, so_far):
+            if not close:
+                yield so_far
+                return
+
+            if open:
+                yield from f(open-1, close, so_far + '(')
+
+            if open < close:
+                yield from f(open, close-1, so_far + ')')
+
+        result = [item for item in f(n, n, '')]
+        return result
+
+
 '''
 '' -> (   -> ((     ->   (((      -> ((((
                     ->   (()      -> (()(
@@ -38,6 +55,16 @@ class Solution(object):
         f(n, n, '', so_far)
 
         return so_far
+
+class SolutionDP:
+    def generateParenthesis(self, n):
+        parenthesis_by_row = [[] for _ in range(n+1)]
+        parenthesis_by_row[0] = ['']
+        for i in range(1, n+1):
+            for j in range(i):
+                parenthesis_by_row[i] += parenthesis_by_row[j] + parenthesis_by_row[i-j-1]
+
+
 
 
 '''

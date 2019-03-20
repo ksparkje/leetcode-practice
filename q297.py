@@ -28,46 +28,47 @@ class Codec:
         return dfs(root)
 
     def deserialize(self, data):
-        """Decodes your encoded data to tree.
-
-        :type data: str
-        :rtype: TreeNode
-        """
-        if data == 'None,':
-            return None
-
-        def build_tree(tree_list, idx):
-            if tree_list[idx] is None:
-                return None, idx
-            else:
-                cur_node = TreeNode(tree_list[idx])
-                cur_node.left, idx = build_tree(tree_list, idx+1)
-                cur_node.right, idx = build_tree(tree_list, idx+1)
-                return cur_node, idx
-
-        nodes_in_list = [eval(item) for item in data.split(',')[:-1]]
-        tree_head, _ = build_tree(nodes_in_list, 0)
-        return tree_head
-
-    def deserialize(self, data):
         """
         From Official answer key...
         """
         def rdeserialize(l):
-            """ a recursive helper function for deserialization."""
+            ''' 이게 핵심... !'''
             if l[0] == 'None':
                 l.pop(0)
                 return None
 
-            root = TreeNode(l[0])
-            l.pop(0)
-            root.left = rdeserialize(l)
-            root.right = rdeserialize(l)
-            return root
+            node = TreeNode(l.pop(0))
+            node.left = rdeserialize(l)
+            node.right = rdeserialize(l)
+            return node
 
         data_list = data.split(',')
         root = rdeserialize(data_list)
         return root
+
+    # 헷갈림...
+    # def deserialize(self, data):
+    #     """Decodes your encoded data to tree.
+
+        # :type data: str
+        # :rtype: TreeNode
+        # """
+        # if data == 'None,':
+        #     return None
+
+        # def build_tree(tree_list, idx):
+        #     if tree_list[idx] is None:
+        #         return None, idx
+        #     else:
+        #         cur_node = TreeNode(tree_list[idx])
+        #         cur_node.left, idx = build_tree(tree_list, idx+1)
+        #         cur_node.right, idx = build_tree(tree_list, idx+1)
+        #         return cur_node, idx
+
+        # nodes_in_list = [eval(item) for item in data.split(',')[:-1]]
+        # tree_head, _ = build_tree(nodes_in_list, 0)
+        # return tree_head
+
 
 
 # Your Codec object will be instantiated and called as such:
@@ -78,7 +79,7 @@ class Codec:
 # by zjlvmiao
 #
 # BFS with Queue
-class Codec:
+class Codec2:
     '''       O(n) time and O(n) space, BFS traversal
     e.g., 1
          / \
@@ -125,8 +126,6 @@ class Codec:
                 queue.append(right)
             i += 1
         return root
-
-
 
 
 def build_tree(tree_list, idx):
