@@ -75,20 +75,10 @@ class Solution:
         return result
 
 
+# Check two binary trees leaves are equal when one is reversed
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+# Return the sum of left leaves / sum of right leaves
 
 
 

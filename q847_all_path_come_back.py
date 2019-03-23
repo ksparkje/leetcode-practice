@@ -29,6 +29,7 @@ import collections
     visiting nodes in a different sequence...!
 '''
 
+
 class Solution:
     def shortestPathLength(self, graph: List[List[int]]) -> int:
         # Keep a tuple (visited_so_far, source) such that
@@ -57,9 +58,5 @@ class Solution:
                 if current_distance + 1 < distance_visited[with_the_target, target_idx]:
                     distance_visited[with_the_target, target_idx] = current_distance + 1
                     queue.append((with_the_target, target_idx))
-
-
-
-
 
 
