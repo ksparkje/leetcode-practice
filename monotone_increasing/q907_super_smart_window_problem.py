@@ -55,11 +55,82 @@ https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solu
 Possibly better
 https://leetcode.com/problems/sum-of-subarray-minimums/discuss/170750/C++JavaPython-Stack-Solution
 '''
-class Solution:
-    def sumSubarrayMins(self, A: List[int]) -> int:
 
-        s1, s2 = [], []
-        left_index
+
+'''
+Gameplan:
+Keep a non-decreasing stack
+As soon as I hit a lower number than what is the most right in the stack,
+pop the left ones while it's lower and record
+'''
+class Solution:
+    '''
+    Super nice solution
+    [1, 2, 3, 4, 5]
+
+    (*) left
+    [1, 1, 1, 1, 1]
+
+    (**) right
+    Notice it's the inverse. Keep a non-decreasing stack from the reverse side.
+    [5, 4, 3, 2, 1]
+    '''
+    def DiscussionSumSubarrayMins(self, A):
+        n, mod = len(A), 10**9 + 7
+        left, right, s1, s2 = [0] * n, [0] * n, [], []
+
+        # (*)
+        for i in range(n):
+            count = 1
+            while s1 and s1[-1][0] > A[i]:
+                count += s1.pop()[1]
+            left[i] = count
+            s1.append([A[i], count])
+
+        # (**)
+        for i in range(n)[::-1]:
+            count = 1
+            while s2 and s2[-1][0] >= A[i]:
+                count += s2.pop()[1]
+            right[i] = count
+            s2.append([A[i], count])
+
+        return sum(a * l * r for a, l, r in zip(A, left, right)) % mod
+
+    # Mine...
+    def sumSubarrayMins(self, A: List[int]) -> int:
+        sum_so_far = 0
+        non_dec_stack = []
+        for idx, item in enumerate(A, 1):
+            while non_dec_stack and non_dec_stack[-1][0] > item:
+                pop_item, pop_idx = non_dec_stack.pop()
+
+                left_idx = non_dec_stack[-1][1] if non_dec_stack else 0
+                left_distance = pop_idx - left_idx
+                right_distance = idx - pop_idx
+
+                sum_so_far += left_distance * right_distance * pop_item
+
+            non_dec_stack.append([item, idx])
+
+        while non_dec_stack:
+            pop_item, pop_idx = non_dec_stack.pop()
+
+            left_idx = non_dec_stack[-1][1] if non_dec_stack else 0
+            left_distance = pop_idx - left_idx
+            right_distance = len(A) + 1 - pop_idx
+
+            sum_so_far += left_distance * right_distance * pop_item
+
+            return sum_so_far % (10 ** 9 + 7)
+
+
+
+
+
+
+
+
 
 
 
