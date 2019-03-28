@@ -25,7 +25,8 @@
 # s = "aa"
 # p = "a*"
 # Output: true
-# Explanation: '*' means zero or more of the precedeng element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
+# Explanation: '*' means zero or more of the precedeng element, 'a'. Therefore, by repeating 'a'
+# once, it becomes "aa".
 # Example 3:
 #
 # Input:
@@ -74,6 +75,51 @@ class Solution:
             return so_far[i, j]
 
         return dp(0, 0)
+
+    def isMatch(self, s: str, p: str) -> bool:
+        s = '_' + s
+        p = '_' + p
+
+        len_s = len(s)
+        len_p = len(p)
+
+        dp = [[False]*len_p for _ in range(len_s)]
+
+        dp[0][0] = True
+        for idx in range(1, len_p):
+            if p[idx] == '*':
+                dp[0][idx] = dp[0][idx-2]
+
+        for i in range(1, len_s):
+            for j in range(1, len_p):
+                if p[j] == '*':
+                    without_star = dp[i][j-2]
+                    with_star = (s[i] == p[j-1] or p[j-1] == '.') and dp[i-1][j]
+                    #                                               Not necessary b/c '*'
+                    # with_star = (s[i] == p[j-1] or p[j-1] == '.') and any((dp[i-1][j-2],
+                    #                                                        dp[i-1][j]))
+                    ret = with_star or without_star
+                else:
+                    ret = dp[i-1][j-1] and (s[i] == p[j] or p[j] == '.')
+
+                dp[i][j] = ret
+
+        return dp[len_s-1][len_p-1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
