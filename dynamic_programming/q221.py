@@ -74,7 +74,9 @@ https://leetcode.com/problems/maximal-square/discuss/164120/Python-or-DP-tm
 '''
 class Solution(object):
     def maximalSquare(self, matrix):
-        if not matrix: return 0
+        if not matrix:
+            return 0
+
         m, n = len(matrix), len(matrix[0])
         dp = [[0 if matrix[i][j] == '0' else 1 for j in range(0, n)] for i in range(0, m)]
 

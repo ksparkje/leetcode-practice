@@ -37,25 +37,22 @@ from functools import reduce
 
 class Solution:
     def wordBreakTable(self, s: str, wordDict: List[str]) -> bool:
-        s = '_' + s
         max_len_in_dict = reduce(lambda x, y: max(x, len(y)), wordDict, 0)
         my_dict = {item for item in wordDict}
 
-        table = [False] * len(s)
+        table = [False] * (len(s) + 1)
         table[0] = True
-        for i in range(1, len(s)):
-            for j in range(1, min(max_len_in_dict, len(s) - i)):
-                table[i] = table[j-i] and s[i: i+j] in my_dict
-        print(table)
+
+        for i in range(1, len(s)+1):
+            for j in range(i):
+                if table[j] and s[j:i] in my_dict:
+                    table[i] = True
+                # I wonder how I can incorporate max_len
+                # if i - j < max_len is not the correct way
+
         return table[-1]
 
-
-
-
-
-
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-
         if not s:
             return True
 

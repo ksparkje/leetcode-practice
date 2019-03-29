@@ -122,7 +122,7 @@ class Solution:
 
             sum_so_far += left_distance * right_distance * pop_item
 
-            return sum_so_far % (10 ** 9 + 7)
+        return sum_so_far % (10 ** 9 + 7)
 
 
 

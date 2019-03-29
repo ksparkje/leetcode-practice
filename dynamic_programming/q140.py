@@ -41,7 +41,6 @@
 
 
 from typing import List
-from functools import reduce
 from collections import defaultdict
 
 
@@ -54,47 +53,42 @@ class Solution:
         if not wordDict:
             return []
 
-        max_len_in_dict = reduce(lambda x, y: max(x, len(y)), wordDict, 0)
         my_dict = {item for item in wordDict}
         visited = defaultdict(list)
 
-        def dfs(given_s, path: List[str]):
+        def dfs(given_s):
             # Return me a possible path
             if not given_s:
-                return path
+                return []
 
             if given_s in visited:
                 return visited[given_s]
 
-            all_rest = []
-            current_partial = []
-            for idx, c in enumerate(given_s):
-                if idx < max_len_in_dict:
-                    current_partial += [c]
-                    this_word = ''.join(current_partial)
-                    if this_word in my_dict:
-                        rest = given_s[idx+1:]
-                        rest_list = dfs(rest, [this_word])
-                        visited[rest].append(' '.join(rest_list))
-                        all_rest += rest_list
+            ret = []
+            for word in my_dict:
+                if given_s.startswith(word):
 
-                else:
-                    break
+                    # THIS MUST BE HERE
+                    if len(word) == len(given_s):
+                        ret.append(word)
+                        # This ensures the correct implementation even when
+                        # rest_list is returned [] and therefore no for-loop
+                        # happens in line  (*)
 
-            visited[given_s].extend(' '.join(path) + ' ' + item
-                                    for rest in all_rest
-                                    for item in visited[rest])
-            print(visited[given_s])
+                    else:
+                        rest_list = dfs(given_s[len(word):])
+                        for item in rest_list:  # (*)
+                            ret += [word + ' ' + item]
+
+            visited[given_s].extend(ret)
             return visited[given_s]
 
-        temp = dfs(s, [])
-        return temp
+        return dfs(s)
 
 
 if __name__ == '__main__':
 
     s = Solution()
     input = ("catsanddog",     ["cat", "cats", "and", "sand", "dog"])
-    # input = ('leetcode', ["leet", "code"])
 
     print(s.wordBreak(*input))
