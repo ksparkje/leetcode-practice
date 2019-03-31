@@ -1,116 +1,88 @@
-# Numbers with 1 repeat digit
+# 1015. Smallest Integer Divisible by K
+# User Accepted: 677
+# User Tried: 1745
+# Total Accepted: 710
+# Total Submissions: 6398
+# Difficulty: Medium
+# Given a positive integer K, you need find the smallest positive integer N such that N is divisible by K,
+# and N only contains the digit 1.
 #
-# Given a positive integer N, return the number of positive integers less than
-# or equal to N that have at least 1 repeated digit
-
-# Example 1
-# Input: 20
+# Return the length of N.  If there is no such N, return -1.
+#
+#
+#
+# Example 1:
+#
+# Input: 1
 # Output: 1
-# The only positive number <= 20 with at least 1 repated digit is 11
-
-# Example 2
-# Input: 100
-# Output: 10
-# The positive number <= 100 :=> 11, 22, 33 ... 99 100
+# Explanation: The smallest answer is N = 1, which has length 1.
+# Example 2:
+#
+# Input: 2
+# Output: -1
+# Explanation: There is no such positive integer N divisible by 2.
+# Example 3:
+#
+# Input: 3
+# Output: 3
+# Explanation: The smallest answer is N = 111, which has length 3.
 
 
 '''
-Lets try it like a graph problem.
+Interesting problem
 
-With a given digit, say 1, build a possible node, such as 11, and check if it's possible.
-Once created, put it in a visited, to not get confused later.
-...
-
-
-This seems stupid. Maybe a better way is to check if it has a repeated digit.
+Suppose K = 6
+                                                diff
+1           % 6 =               1 % 6 = 1
+11          % 6 =               5 % 6 = 5         4
+(100 + 11)  % 6 = (4 + 5) % 6 = 9 % 6 = 3         4 (from 5 to 9, before mod 6)
+111         % 6 = above               = 3
+1111        % 6 = (1000 + 111) % 6    = 1         4 (from 3 to 7, before mod 6)
 '''
-from collections import Counter
-
 class Solution:
-    def num_with_one_repeated_digit(self, n):
-        '''
-        :param n:
-        :return:
-        '''
+    def smallestRepunitDivByK(self, K: int) -> int:
 
-        def check_repeated_digit(x):
-            counts = Counter(str(x))
-            return max(counts.values()) >= 2
+        # Don't do this... re-write please
 
-        return sum(check_repeated_digit(i) for i in range(1, n+1))
+        def is_one_only(val):
+            if val == 0:
+                return False
 
+            while val:
+                val, rem = divmod(val, 10)
+                if rem != 1:
+                    return False
 
-class SolutionFeng(object):
-    def numDupDigitsAtMostN(self, N):
-        """
-        :type N: int
-        :rtype: int
-        """
-        def helper(n,used):
-            if not used:
-                if n == 0:
-                    return 0
-                if n == 1:
-                    return 9
-                res = 9
-                tmp = 9
-                while n > 1:
-                    res *= tmp
-                    n -= 1
-                    tmp -= 1
-                return res
-            else:
-                N = 10-used
-                res = 1
-                for _ in range(n):
-                    res *= N
-                    N -= 1
-                return res
-        if N < 11:
-            return 0
-        res = 0
-        l = len(str(N))-1
-        while l:
-            res += helper(l,0)
-            l -= 1
-        # print(res)
-        lenN = len(str(N))
-        l = lenN-1
-        used = set()
-        total = N
-        flag = False
-        while l:
-            digit = N/(10**(l))
-            if digit in used:
-                flag = True
-            used.add(digit)
-            # print(digit,l,used,res)
-            if l == lenN-1:
-                res += (digit-1)*helper(l,lenN-l)
-            else:
-                for i in range(digit):
-                    if i not in used:
-                        res += helper(l,lenN-l)
-            if flag:
-                break
-            l -= 1
-            N %= (10**(l+1))
-        # print(res)
-        used = set(str(total)[:-1])
-        if len(used) != len(str(total))-1:
-            return total-res
-        N = total/10*10
-        while N <= total:
-            if str(N%10) not in used:
-                res += 1
-            N += 1
-        return total-res
+            return True
+
+        if K % 2 == 0:
+            return -1
+
+        guess = 1
+
+        while guess < (1 << 64):
+            quot, rem = divmod(guess, K)
+            if rem == 0:
+                if is_one_only(guess):
+                    return len(str(guess))
+            guess = guess * 10 + 1
+
+        return -1
+
 
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.num_with_one_repeated_digit(20))
-    print(s.num_with_one_repeated_digit(100))
-    print(s.num_with_one_repeated_digit(1000))
+    print(s.smallestRepunitDivByK(17))
+
+
+
+
+
+
+
+
+
+
 
