@@ -55,6 +55,7 @@ https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solu
 Possibly better
 https://leetcode.com/problems/sum-of-subarray-minimums/discuss/170750/C++JavaPython-Stack-Solution
 '''
+from typing import List
 
 
 '''
@@ -64,6 +65,32 @@ As soon as I hit a lower number than what is the most right in the stack,
 pop the left ones while it's lower and record
 '''
 class Solution:
+    def sum_subarray_mins(self, A):
+        length = len(A)
+        increasing = []
+        minimums_to_left = [0] * length
+        for idx, item in enumerate(A):
+            count = 1
+            while increasing and increasing[-1][1] >= item:
+                pop_count, pop_item = increasing.pop()
+                count += pop_count
+            minimums_to_left[idx] = count
+            increasing.append([count, item])
+
+        increasing = []
+        minimums_to_right = [0] * length
+        for idx, item in reversed(list(enumerate(A))):
+            count = 1
+            while increasing and increasing[-1][1] > item:
+                pop_count, pop_item = increasing.pop()
+                count += pop_count
+            minimums_to_right[idx] = count
+            increasing.append([count, item])
+
+        return sum(item * left * right
+                   for item, left, right in
+                   zip(A, minimums_to_left, minimums_to_right)) % (10**9 + 7)
+
     '''
     Super nice solution
     [1, 2, 3, 4, 5]
@@ -72,7 +99,7 @@ class Solution:
     [1, 1, 1, 1, 1]
 
     (**) right
-    Notice it's the inverse. Keep a non-decreasing stack from the reverse side.
+    Notice it's the inverse. Keep a non-decreasing(increasing) stack from the reverse side.
     [5, 4, 3, 2, 1]
     '''
     def DiscussionSumSubarrayMins(self, A):
@@ -86,6 +113,7 @@ class Solution:
                 count += s1.pop()[1]
             left[i] = count
             s1.append([A[i], count])
+            print(s1)
 
         # (**)
         for i in range(n)[::-1]:
@@ -94,6 +122,7 @@ class Solution:
                 count += s2.pop()[1]
             right[i] = count
             s2.append([A[i], count])
+            print(s2)
 
         return sum(a * l * r for a, l, r in zip(A, left, right)) % mod
 
@@ -124,6 +153,11 @@ class Solution:
 
         return sum_so_far % (10 ** 9 + 7)
 
+
+if __name__ == '__main__':
+    A = [1,2,3,2,1]
+    s = Solution()
+    s.DiscussionSumSubarrayMins(A)
 
 
 

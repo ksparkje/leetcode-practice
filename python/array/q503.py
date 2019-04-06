@@ -33,6 +33,18 @@ answer should be
 '''
 class Solution:
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        length = len(nums)
+        decreasing = []
+        greater_on_right = [-1] * length
+        for idx, item in enumerate(nums + nums):
+            while decreasing and decreasing[-1][1] < item:
+                greater_on_right[decreasing.pop()[0]] = item
+            decreasing.append([idx%length, item])
+        return greater_on_right
+
+
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
         # We have to go at least one cycle
         # So might as well keep a counter to tell whether we've seen one
         cur_idx = aux_idx = 0

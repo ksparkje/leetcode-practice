@@ -8,6 +8,26 @@ from typing import List
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
+        if not heights:
+            return 0
+        increasing = []
+        heights = [0] + heights + [0]
+        max_area = 0
+
+        for idx, h in enumerate(heights):
+            while increasing and increasing[-1][1] >= h:
+                # calculate the area
+                pop_idx, pop_h = increasing.pop()
+                left_idx = increasing[-1][0] if increasing else 0
+                area = (idx - left_idx - 1) * pop_h
+                max_area = max(area, max_area)
+            increasing.append([idx, h])
+
+        return max_area
+
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
         # Notice, I should be concerned about the minimum number...
         # I need to know when this low number ends.
         # Therefore, I need a increasing sequence.

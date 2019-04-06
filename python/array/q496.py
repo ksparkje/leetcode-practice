@@ -31,6 +31,18 @@ Keep monotonic decreasing stack
 [2, 1]
 [4]
 '''
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        to_idx = {item: idx for idx, item in enumerate(nums2)}
+
+        decreasing = []
+        greater_on_right = [-1] * len(nums2)
+        for idx, item in enumerate(nums2):
+            while decreasing and decreasing[-1][1] < item:
+                greater_on_right[decreasing.pop()[0]] = item
+            decreasing.append([idx, item])
+
+        return [greater_on_right[to_idx[item]] for item in nums1]
 
 
 class Solution:
