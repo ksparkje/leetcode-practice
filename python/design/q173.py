@@ -19,11 +19,31 @@
 
 
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class BSTIteratorReDo:
+    def __init__(self, root: TreeNode):
+        self.stack = []
+        while root:
+            self.stack.append(root)
+            root = root.left
+
+    def next(self) -> int:
+        node = self.stack.pop()
+        right_subtree = node.right
+        while right_subtree:
+            self.stack.append(right_subtree)
+            right_subtree = right_subtree.left
+        return node.val
+
+    def hasNext(self) -> bool:
+        return len(self.stack) > 0
+
 
 class BSTIterator:
 

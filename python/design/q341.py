@@ -44,6 +44,29 @@
 #        """
 class NestedIterator(object):
     def __init__(self, nestedList):
+        self.nested = self.get_nested(nestedList)
+        self.current_idx = 0
+
+    def get_nested(self, nested_list):
+        so_far = []
+        for nl in nested_list:
+            if nl.isInteger():
+                so_far.append(nl.getInteger())
+            else:
+                so_far.extend(self.get_nested(nl.getList()))
+        return so_far
+
+    def next(self):
+        next_item = self.nested[self.current_idx]
+        self.current_idx += 1
+        return next_item
+
+    def hasNext(self):
+        return self.current_idx < len(self.nested)
+
+
+class NestedIterator(object):
+    def __init__(self, nestedList):
         self.flat_list = self._flatten(nestedList)
         self.idx = -1
 
