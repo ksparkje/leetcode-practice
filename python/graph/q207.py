@@ -2,13 +2,35 @@
 # There are a total of n courses you have to take, labeled from 0 to n-1.
 # Some courses may have prerequisites, for example to take course 0 you have
 # to first take course 1, which is expressed as a pair: [0,1]
-# Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+# Given the total number of courses and a list of prerequisite pairs, is it possible
+# for you to finish all courses?
+from collections import defaultdict
 
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        '''walk through dfs
-        '''
+        visited = [None] * numCourses
+        src_to_dest = defaultdict(list)
+        for dest, src in prerequisites:
+            src_to_dest[src].append(dest)
+
+        def dfs(idx):
+            if visited[idx] == 1:
+                return True
+            if visited[idx] == -1:
+                return False
+
+            # Mark as visiting
+            visited[idx] = -1
+            if all(dfs(dest) for dest in src_to_dest[idx]):
+                visited[idx] = 1
+                return True
+            else:
+                return False
+
+        return all(dfs(idx) for idx in range(numCourses))
+
+    def canFinishPrev(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         so_far, req = [None] * numCourses, [[] for _ in range(numCourses)]
         # Initialize pre-requisites
         for to_take, prereq in prerequisites:
@@ -32,7 +54,6 @@ class Solution:
                     no_cycle = all(dfs(to_visit) for to_visit in req[idx])
                     if not no_cycle: return False
                 so_far[idx] = 1
-                ret = [idx] + ret
                 return True
 
         return all(dfs(idx) for idx in range(numCourses))

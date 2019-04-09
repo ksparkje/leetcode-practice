@@ -46,6 +46,41 @@ from collections import defaultdict
 
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        if not s:
+            return []
+        myDict = set(wordDict)
+        # max_length = max(map(lambda x: len(x), myDict))
+        length = len(s)
+        cache = defaultdict(list)
+
+        def dfs(start_idx, whole_string) -> List[str]:
+            if start_idx == length:
+                return []
+
+            if start_idx in cache:
+                return cache[start_idx]
+
+            cur_result = []
+            for idx in range(start_idx+1, length+1):
+                # if (idx - start_idx) > max_length:
+                #     break
+                this_word = s[start_idx: idx]
+                if this_word in myDict:
+                    if idx == length:
+                        _ = dfs(idx, whole_string + this_word)
+                        cur_result += [this_word]
+                    else:
+                        rest = dfs(idx, whole_string + this_word)
+                        cur_result += [this_word + ' ' + item for item in rest]
+
+            cache[start_idx].extend(cur_result)
+            return cur_result
+
+        return dfs(0, '')
+
+
+class Solution2:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
 
         if not s:
             return []

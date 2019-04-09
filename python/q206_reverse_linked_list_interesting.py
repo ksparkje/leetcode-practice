@@ -44,11 +44,9 @@ class Solution:
         if not head or not head.next:
             return head
         new_head = self.reverseListAnother(head.next)
-        last_node = new_head
-        while last_node and last_node.next:
-            last_node = last_node.next
-        last_node.next = head
-        head.next = None
+        # Go to the last node
+        last_node = head.next
+        last_node.next, head.next = head, None
         return new_head
 
 
