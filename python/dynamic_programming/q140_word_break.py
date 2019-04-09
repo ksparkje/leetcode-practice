@@ -53,7 +53,7 @@ class Solution:
         length = len(s)
         cache = defaultdict(list)
 
-        def dfs(start_idx, whole_string) -> List[str]:
+        def dfs(start_idx) -> List[str]:
             if start_idx == length:
                 return []
 
@@ -67,16 +67,16 @@ class Solution:
                 this_word = s[start_idx: idx]
                 if this_word in myDict:
                     if idx == length:
-                        _ = dfs(idx, whole_string + this_word)
+                        # _ = dfs(idx)
                         cur_result += [this_word]
                     else:
-                        rest = dfs(idx, whole_string + this_word)
+                        rest = dfs(idx)
                         cur_result += [this_word + ' ' + item for item in rest]
 
             cache[start_idx].extend(cur_result)
             return cur_result
 
-        return dfs(0, '')
+        return dfs(0)
 
 
 class Solution2:
