@@ -81,6 +81,10 @@ class Solution:
 # Return the sum of left leaves / sum of right leaves
 
 
+# Given inputs of array, and a target, can we form pairs such that the pair is divisible
+#   by the target? i.e. return True if there exists pairs that their sum is divisible by target
+# [3, 1, 2, 2], target = 4 is True, since [3,1], [2,2] is divisible by 4
+# [0, 3, 4, 4], target = 7 is Fasle, since it's not possible to get such pairs
 
 
 
