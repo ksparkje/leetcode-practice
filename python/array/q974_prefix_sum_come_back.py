@@ -14,6 +14,7 @@ from typing import List
 
 
 class Solution:
+
     def subarraysDivByK(self, A: List[int], K: int) -> int:
         mod_counts = [1] + [0] * (K - 1)
         sum_so_far = 0
