@@ -30,8 +30,28 @@ m n | o p
 Don't focus on 'a'. Start with 'b'.
 
 
+Also Note:
+    1   2    3  | 4   5
+    6   7    8  | 9   10
+    -----------
+    11  12 | 13 | 14  15
+            -----------
+    16  17 | 18  19  20
+    21  22 | 23  24  25
 '''
+
+
 class Solution(object):
+    def rotate(self, matrix):
+        for i in range(len(matrix) // 2):
+            for j in range(len(matrix) - (len(matrix) // 2)):
+                matrix[j][~i], matrix[~i][~j], matrix[~j][i], matrix[i][j] = (
+                matrix[i][j], matrix[j][~i], matrix[~i][~j], matrix[~j][i])
+
+        return matrix
+
+
+class Solution2(object):
     def rotate(self, matrix):
         for i in range(len(matrix)//2):
             #              여기가 무조건 ................

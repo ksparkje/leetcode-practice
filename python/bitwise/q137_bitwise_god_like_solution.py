@@ -68,6 +68,7 @@ class Solution:
             # print(one, two)
         return one
 
+
 class Solution2:
     def singleNumber(self, nums: List[int]) -> int:
         answer = 0

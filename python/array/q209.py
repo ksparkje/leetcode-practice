@@ -20,8 +20,25 @@ from typing import List
 
 class Solution:
     def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        nums = [0] + nums
+        start_idx = 0
+        acc = list(accumulate(nums))
+        min_dist = float('inf')
+
+        for idx, cur_sum in enumerate(acc):
+            while cur_sum - acc[start_idx] >= s:
+                min_dist = min(min_dist, idx - start_idx)
+                start_idx += 1
+
+        return min_dist if min_dist != float('inf') else 0
+
+
+class Solution2:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
         min_length = impossible = len(nums) + 1
         p = accumulate([0] + nums)
+        # I think monoq is a misnomer...
+        # It's just a regular queue
         monoq = deque()
 
         for idx, py in enumerate(p):
@@ -33,4 +50,7 @@ class Solution:
         return min_length if min_length != impossible else 0
 
 
-
+if __name__ == '__main__':
+    s = Solution()
+    given = [2,3,1,2,4,3]
+    print(s.minSubArrayLen(7, given))
