@@ -43,6 +43,29 @@
 # Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore it matches "aab".
 
 
+class Solution2:
+    def isMatch(self, s: str, p: str) -> bool:
+
+        visited = {}
+
+        def dp(i, j):
+            if (i, j) not in visited:
+                if j == len(p):
+                    ret = i == len(s)
+                else:
+                    char_match = i < len(s) and (s[i] == p[j] or p[j] == '.')
+                    if j + 1 < len(p) and p[j + 1] == '*':
+                        ret = (char_match and dp(i+1, j)) or dp(i, j+2)
+                    else:
+                        ret = char_match and dp(i+1, j+1)
+
+                visited[i, j] = ret
+
+            return visited[i, j]
+
+        return dp(0, 0)
+
+
 class Solution:
     def isMatchNonDP(self, s: str, p: str) -> bool:
         if not p:
