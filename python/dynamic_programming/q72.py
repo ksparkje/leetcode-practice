@@ -17,6 +17,29 @@
 
 
 class Solution:
+    def minDistance2(self, word1: str, word2: str) -> int:
+        visited = {}
+
+        def f(i, j):
+            if i < 0:
+                return j + 1
+            if j < 0:
+                return i + 1
+
+            if (i, j) not in visited:
+                if word1[i] == word2[j]:
+                    ret = f(i-1, j-1)
+                else:
+                    substitute_distance = f(i-1, j-1)
+                    delete_distance = f(i, j-1)
+                    add_distance = f(i-1, j)
+                    ret = 1 + min(delete_distance, add_distance, substitute_distance)
+                visited[i, j] = ret
+
+            return visited[i, j]
+
+        return f(len(word1) - 1, len(word2) - 1)
+
     def minDistance(self, word1: str, word2: str) -> int:
 
         len_word1, len_word2 = len(word1), len(word2)
