@@ -37,6 +37,7 @@ class Solution:
 
         return max(visited.values())
 
+
 if __name__ == '__main__':
     s = Solution()
     print(s.longestConsecutive([1,3,4, 20, 23, 22, 25,24, 26, 102, 100]))
